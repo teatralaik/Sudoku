@@ -14,10 +14,13 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     sudokumodel.cpp \
-    mwidget.cpp
+    mwidget.cpp \
+    sudokumatrix.cpp
 
 HEADERS  += \
     sudokumodel.h \
-    mwidget.h
+    mwidget.h \
+    sudokumatrix.h
 
-FORMS    +=
+QMAKE_CXXFLAGS=-std=c++11
+CONFIG += c++11

@@ -27,21 +27,16 @@ MWidget::MWidget(QWidget *parent) : QWidget(parent)
 
 void MWidget::count()
 {
-    static int data[9][9];
 
     for (int i = 0; i < 9; i++)
         for (int j = 0; j < 9; j++)
             if (!(uidata_[i][j]->text()).isEmpty())
-                data[i][j] = (uidata_[i][j]->text()).toInt();
-            else
-                data[i][j] = 0;
+                sudokuModel_.assignCeil(i,j,(uidata_[i][j]->text()).toInt());
 
-
-    sudokuModel_.countSudoku(data);
-
+    sudokuModel_.countSudoku();
 
     for (int i = 0; i < 9; i++)
         for (int j = 0; j < 9; j++)
-            uidata_[i][j]->setText(QString::number(data[i][j]));
+            uidata_[i][j]->setText(QString::number(sudokuModel_.getData(i,j)));
 }
 

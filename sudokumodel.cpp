@@ -5,66 +5,69 @@
 #include <algorithm>
 using namespace std;
 
-SudokuModel::undefCell SudokuModel::checkDefine(int (&mas)[9][9])
+SudokuModel::retCheck SudokuModel::checkDefine(SudokuModel::undefCell& cell)
 {
    vector<int> p;
-   undefCell ret;
-   int minCount = 10;
    p.reserve(10);
+   int minCount = 10;
+   bool full = true;
+
    for(int i = 0; i < 9; i++)
        for(int j = 0; j < 9; j++){
-           if (mas[i][j] == 0){
+           if (sudokuMatrix_[i][j] == 0){
                p.clear();
                for(int n = 1; n < 10; n++){
-                   if (checkV(mas,n,i) &&
-                       checkH(mas,n,j) &&
-                       checkB(mas,n,i - i%3, j - j%3))
+                   if (checkV(n,i) &&
+                       checkH(n,j) &&
+                       checkB(n,i - i%3, j - j%3))
                        p.push_back(n);
                }
 
                if(!p.empty()){
                     int sizeP = p.size();
                     if (sizeP == 1){
-                        mas[i][j] = p.back();
+                        sudokuMatrix_.assignCeil(i, j, p.back());
                         i = 0, j = 0;
+                        full = true;
+                        minCount = 10;
                     }
                     else{
                         if (minCount > sizeP){
                             minCount = sizeP;
-                            ret.setData(i,j,p);
+                            cell.setData(i,j,p);
                         }
+                        full = false;
                     }
                }
-               else
-                   throw std::runtime_error("BAD SUDOKU");
+               else return ErrorID;
            }
        }
 
-   return ret;
+   return (full ? FullID : NotFull);
 }
 
-bool SudokuModel::checkV(int (&mas)[9][9], int n, int row)
+bool SudokuModel::checkV( int n, int row)
 {
     for(int i = 0; i<9; i++)
-        if (mas[row][i] == n)
+        if (sudokuMatrix_[row][i] == n)
             return false;
     return true;
 }
 
-bool SudokuModel::checkH(int (&mas)[9][9], int n, int col)
+bool SudokuModel::checkH(int n, int col)
 {
     for(int i = 0; i<9; i++)
-        if (mas[i][col] == n)
+        if (sudokuMatrix_[i][col] == n)
             return false;
     return true;
 }
 
-bool SudokuModel::checkB(int (&mas)[9][9], int n, int colb, int rowb)
+bool SudokuModel::checkB(int n, int rowb, int colb)
 {
 
     for(int i = rowb; i<rowb+3; i++)
         for(int j = colb; j<colb+3; j++)
-            if (mas[i][j] == n)
+            if (sudokuMatrix_[i][j] == n)
                 return false;
     return true;
 }
@@ -74,30 +77,48 @@ SudokuModel::SudokuModel()
 
 }
 
-bool SudokuModel::countSudoku(int (&mas)[9][9])
+bool SudokuModel::countSudoku()
 {
-    undefCell cell;
-    try{
-        cell = checkDefine(mas);}
-    catch(...){
-        return false;
-    }
+    for(int i = 0; i < 9; i++){
+        for(int j = 0; j < 9; j++){
+            cout<<"|"<<sudokuMatrix_[i][j]<<"|";}
 
-    if (!cell.isEmpty()){
+        cout<<endl;
+    }
+    cout<<"------------------------------------"<<endl;
+
+    undefCell cell;
+    retCheck ret = checkDefine(cell);
+    if (ret == ErrorID)
+        return false;
+
+
+
+    if (ret == NotFull){
         vector<int>::iterator it;
 
-        int masPr[9][9];
-        for(it = cell.var_.begin(); it != cell.var_.end(); ++it){
-            memcpy(masPr,mas,sizeof(masPr));
 
-            masPr[cell.row_][cell.col_] = *it;
-            if (countSudoku(masPr)){
-                memcpy(mas,masPr,sizeof(masPr));
+        for(it = cell.var_.begin(); it != cell.var_.end(); ++it){
+
+            sudokuMatrix_.raiseLevel();
+            sudokuMatrix_.assignCeil(cell.row_, cell.col_, *it);
+            if (countSudoku()){
                 return true;
             }
+            sudokuMatrix_.clearDataPerLevel();
         }
-
-        mas[cell.row_][cell.col_] = 0;
         return false;
     }
+
+    return true;
+}
+
+void SudokuModel::assignCeil(int i, int j, int n)
+{
+    sudokuMatrix_.assignCeil(i,j,n);
+}
+
+int SudokuModel::getData(int i, int j)
+{
+    return sudokuMatrix_[i][j];
 }

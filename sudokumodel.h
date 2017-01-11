@@ -1,42 +1,41 @@
 #ifndef SUDOKUMODEL_H
 #define SUDOKUMODEL_H
 #include <vector>
+#include "sudokumatrix.h"
 using namespace std;
 
 class SudokuModel
 {
+    enum retCheck{FullID, ErrorID, NotFull};
 
-    bool checkV(int (&mas)[9][9], int n, int row);
-    bool checkH(int (&mas)[9][9], int n, int col);
-    bool checkB(int (&mas)[9][9], int n, int colb, int rowb);
+    SudokuMatrix sudokuMatrix_;
+
+    bool checkV(int n, int row);
+    bool checkH(int n, int col);
+    bool checkB(int n, int rowb, int colb);
 
     struct undefCell{
         vector<int> var_;
         int row_;
         int col_;
-        bool enable_;
-
-        undefCell():
-            enable_(false){}
-
-        bool isEmpty(){
-            return !enable_;
-        }
 
         void setData(int row, int col, vector<int>& n){
-            enable_ = true;
             if (row_ != row || col_ != col){
                 var_.clear();
                 row_ = row, col_ = col;
             }
-            var_.insert(var_.end(),n.begin(),n.end());
+            var_.clear();
+            var_ = n;
         }
     };
 
-    undefCell checkDefine(int (&mas)[9][9]);
+    retCheck checkDefine(undefCell&);
 public:
     SudokuModel();
-    bool countSudoku(int (&mas)[9][9]);
+    bool countSudoku();
+    void assignCeil(int i, int j, int n);
+    int getData(int i, int j);
+
 };
 
 #endif // SUDOKUMODEL_H
