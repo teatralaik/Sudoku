@@ -79,14 +79,6 @@ SudokuModel::SudokuModel()
 
 bool SudokuModel::countSudoku()
 {
-    for(int i = 0; i < 9; i++){
-        for(int j = 0; j < 9; j++){
-            cout<<"|"<<sudokuMatrix_[i][j]<<"|";}
-
-        cout<<endl;
-    }
-    cout<<"------------------------------------"<<endl;
-
     undefCell cell;
     retCheck ret = checkDefine(cell);
     if (ret == ErrorID)
