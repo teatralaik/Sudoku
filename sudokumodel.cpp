@@ -123,5 +123,5 @@ void SudokuModel::clearSol()
 
 bool SudokuModel::hintSudoku()
 {
-
+    return true;
 }
