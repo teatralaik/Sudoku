@@ -24,7 +24,7 @@ SudokuModel::retCheck SudokuModel::checkDefine(SudokuModel::undefCell& cell)
                }
 
                if(!p.empty()){
-                    int sizeP = p.size();
+                    auto sizeP = p.size();
                     if (sizeP == 1){
                         sudokuMatrix_.assignCeil(i, j, p.back());
                         i = 0, j = 0;
