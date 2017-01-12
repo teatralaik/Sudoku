@@ -36,6 +36,9 @@ public:
     void assignCeil(int i, int j, int n);
     int getData(int i, int j);
     void clearAll();
+    void clearSol();
+
+    bool hintSudoku();
 
 };
 

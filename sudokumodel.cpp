@@ -79,6 +79,7 @@ SudokuModel::SudokuModel()
 
 bool SudokuModel::countSudoku()
 {
+    sudokuMatrix_.raiseLevel();
     undefCell cell;
     retCheck ret = checkDefine(cell);
     if (ret == ErrorID)
@@ -93,6 +94,7 @@ bool SudokuModel::countSudoku()
                 return true;
             sudokuMatrix_.clearDataPerLevel();
         }
+        sudokuMatrix_.reduceLevel();
         return false;
     }
 
@@ -112,4 +114,14 @@ int SudokuModel::getData(int i, int j)
 void SudokuModel::clearAll()
 {
     sudokuMatrix_.clearAll();
+}
+
+void SudokuModel::clearSol()
+{
+    sudokuMatrix_.clearSol();
+}
+
+bool SudokuModel::hintSudoku()
+{
+
 }

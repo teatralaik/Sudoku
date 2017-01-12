@@ -65,6 +65,7 @@ MWidget::MWidget(QWidget *parent) : QWidget(parent)
 
     connect(btnCount,SIGNAL(clicked(bool)),this,SLOT(count()));
     connect(btnClear,SIGNAL(clicked(bool)),this,SLOT(clear()));
+    connect(btnClearSol,SIGNAL(clicked(bool)),this,SLOT(clearSol()));
 }
 
 void MWidget::count()
@@ -80,6 +81,13 @@ void MWidget::count()
 void MWidget::clear()
 {
     sudokuModel_.clearAll();
+    setData();
+    label_->clear();
+}
+
+void MWidget::clearSol()
+{
+    sudokuModel_.clearSol();
     setData();
     label_->clear();
 }

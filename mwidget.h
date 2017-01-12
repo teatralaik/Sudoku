@@ -24,6 +24,7 @@ signals:
 public slots:
     void count();
     void clear();
+    void clearSol();
 };
 
 #endif // MWIDGET_H

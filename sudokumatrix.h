@@ -29,8 +29,10 @@ public:
     proxy operator [](int i);
     void assignCeil(int i, int j, int n);
     void raiseLevel();
+    void reduceLevel();
     void clearDataPerLevel();
     void clearAll();
+    void clearSol();
 
 
 

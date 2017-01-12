@@ -29,11 +29,16 @@ void SudokuMatrix::raiseLevel()
     currentLevel_++;
 }
 
+void SudokuMatrix::reduceLevel()
+{
+    currentLevel_--;
+}
+
 void SudokuMatrix::clearDataPerLevel()
 {
     for (int i = 0; i < 9 ; i++){
         for (int j = 0; j < 9 ; j++){
-            if (data_[i][j].level_ == currentLevel_){
+            if (data_[i][j].level_ >= currentLevel_){
                 data_[i][j].data_   = 0;
                 data_[i][j].level_  = 0;
             }
@@ -50,5 +55,19 @@ void SudokuMatrix::clearAll()
                 data_[i][j].level_  = 0;
         }
     }
+    currentLevel_ = 0;
+}
+
+void SudokuMatrix::clearSol()
+{
+    for (int i = 0; i < 9 ; i++){
+        for (int j = 0; j < 9 ; j++){
+            if (data_[i][j].level_ > 0){
+                data_[i][j].data_   = 0;
+                data_[i][j].level_  = 0;
+            }
+        }
+    }
+
     currentLevel_ = 0;
 }
