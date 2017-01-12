@@ -85,18 +85,12 @@ bool SudokuModel::countSudoku()
         return false;
 
 
-
     if (ret == NotFull){
-        vector<int>::iterator it;
-
-
-        for(it = cell.var_.begin(); it != cell.var_.end(); ++it){
-
+        for(auto x: cell.var_){
             sudokuMatrix_.raiseLevel();
-            sudokuMatrix_.assignCeil(cell.row_, cell.col_, *it);
-            if (countSudoku()){
+            sudokuMatrix_.assignCeil(cell.row_, cell.col_, x);
+            if (countSudoku())
                 return true;
-            }
             sudokuMatrix_.clearDataPerLevel();
         }
         return false;
@@ -113,4 +107,9 @@ void SudokuModel::assignCeil(int i, int j, int n)
 int SudokuModel::getData(int i, int j)
 {
     return sudokuMatrix_[i][j];
+}
+
+void SudokuModel::clearAll()
+{
+    sudokuMatrix_.clearAll();
 }

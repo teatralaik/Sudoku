@@ -30,6 +30,7 @@ public:
     void assignCeil(int i, int j, int n);
     void raiseLevel();
     void clearDataPerLevel();
+    void clearAll();
 
 
 

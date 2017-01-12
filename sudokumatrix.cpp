@@ -41,3 +41,14 @@ void SudokuMatrix::clearDataPerLevel()
     }
     currentLevel_--;
 }
+
+void SudokuMatrix::clearAll()
+{
+    for (int i = 0; i < 9 ; i++){
+        for (int j = 0; j < 9 ; j++){
+                data_[i][j].data_   = 0;
+                data_[i][j].level_  = 0;
+        }
+    }
+    currentLevel_ = 0;
+}

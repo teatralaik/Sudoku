@@ -35,6 +35,7 @@ public:
     bool countSudoku();
     void assignCeil(int i, int j, int n);
     int getData(int i, int j);
+    void clearAll();
 
 };
 
